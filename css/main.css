@@ -43,14 +43,13 @@ table {
 }
 
 .marked {
-    background-image: url('../images/marked.png');
+    background-image: url('../marked.png');
 }
 
 .smiley {
     padding: 0;
     margin: 5px;
     background-color: transparent;
-    /* background-image: url('../images/smiley3.png'); */
     border: 0px;
     height: 30px;
     width: 30px;

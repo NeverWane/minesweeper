@@ -55,15 +55,10 @@ function renderBoard(board) {
     getElement('.board').innerHTML = innerHTML
 }
 
-function updateSmiley() { //trying to make it work both in github and local
+function updateSmiley() {
     let imageURL = 'smiley'
     imageURL += isGameWin() ? 'win' : `${gGame.lives}`
-    imageURL = getImage(imageURL)
-    let image = new Image()
-    image.src = imageURL
-    if (image.height === 0) {
-        imageURL = `../${imageURL}`
-    }
+    imageURL += '.png'
     updateElementIdImg('smiley', imageURL)
 }
 
