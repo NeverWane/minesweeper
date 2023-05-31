@@ -9,8 +9,22 @@
     <link rel="stylesheet" href="css/main.css" />
 </head>
 
-<body onload="onInit()">
-    
+<body oncontextmenu="return false;" onload="onInit()">
+    <button class="smiley" onclick="onInit()"><img id="smiley" src="../images/smiley3.png"></button>
+    <fieldset class="boxsize">
+        <h3>
+            Select Difficulty
+        </h3>
+        <div>
+            <input type="radio" id="beginner" name="difficulty" value="beginner" checked onclick="onClickSize(value)">
+            <label for="beginner">4 x 4 (2 mines)</label>
+            <input type="radio" id="medium" name="difficulty" value="medium" onclick="onClickSize(value)">
+            <label for="medium">8 x 8 (14 mines)</label>
+            <input type="radio" id="expert" name="difficulty" value="expert" onclick="onClickSize(value)">
+            <label for="expert">12 x 12 (32 mines)</label>
+        </div>
+    </fieldset>
+    <div class="lives">Lives left: <span>3</span></div>
     <table class="board-container">
         <tbody class="board"></tbody>
     </table>

@@ -17,8 +17,12 @@ function getCellHTML(cell, i, j) {
             cellHTML += ` ${gCellClasses[key]}`
         }
     }
-    cellHTML += `" id="getCellId({i, j})" data-i="${i}" data-j="${j}" onclick="onClickCell(this, this.dataset.i, this.dataset.j)"></td>`
+    cellHTML += `" id="cell-${i}-${j}" data-i="${i}" data-j="${j}" oncontextmenu="onMarkCell(this, this.dataset.i, this.dataset.j)" onclick="onClickCell(this, this.dataset.i, this.dataset.j)"></td>`
     return cellHTML
+}
+
+function canClickCell(cell) {
+    return cell && !cell.isShown && !cell.isMarked
 }
 
 function isCellMine(cell) {

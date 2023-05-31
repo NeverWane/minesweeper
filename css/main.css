@@ -26,6 +26,12 @@ table {
     border-collapse: collapse;
     height: 50px;
     width: 50px;
+    transition: 0.3s;
+}
+
+.cell:not(.shown):hover {
+    background-color: aquamarine;
+    cursor: pointer;
 }
 
 .shown {
@@ -34,6 +40,21 @@ table {
 
 .mine {
     background-color: red;
+}
+
+.marked {
+    background-image: url('../images/marked.png');
+}
+
+.smiley {
+    padding: 0;
+    margin: 5px;
+    background-color: transparent;
+    /* background-image: url('../images/smiley3.png'); */
+    border: 0px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
 }
 
 .myname {

@@ -3,11 +3,6 @@
 const BEGINNER = 'BEGINNER'
 const MEDIUM = 'MEDIUM'
 const EXPERT = 'EXPERT'
-
-let gBoard
-let gSize
-let gGame
-let difficulty
 const gAmountMap = {
     BEGINNER: 2,
     MEDIUM: 14,
@@ -19,29 +14,28 @@ const gSizeMap = {
     EXPERT: 12
 }
 
+let gBoard
+let gSize
+let gGame
+let difficulty = BEGINNER
+
 function onInit() {
-    difficulty = BEGINNER //get from input later
     gSize = gSizeMap[difficulty]
     gGame = {
         isOn: true,
         shownCount: 0,
         markedCount: 0,
-        startTime: 0
+        startTime: 0,
+        lives: 3
     }
     gBoard = buildBoard()
+    updateSmiley()
+    updateLife(true)
     renderBoard(gBoard)
+}
 
-    // // test adding mines
-    // let pos1 = { i: 0, j: 1 }
-    // let pos2 = { i: 1, j: 3 }
-    // addMine(pos1)
-    // addMine(pos2)
-
-    // test adding mines randomly
-    addMines()
-
-    // test negsCount
-    setMinesNegsCount()
+function onClickSize(value) {
+    difficulty = value.toUpperCase()
 }
 
 function buildBoard() {
@@ -61,19 +55,113 @@ function renderBoard(board) {
     getElement('.board').innerHTML = innerHTML
 }
 
+function updateSmiley() {
+    let image = 'smiley'
+    image += isGameWin() ? 'win' : `${gGame.lives}`
+    getElementById('smiley').src = `../${getImage(image)}`
+}
+
 function onClickCell(elCell, i, j) {
-    if (gGame.isOn) {
-        let cell = getCellByPos({ i, j })
-        elCell.classList.add('shown')
-        if (isCellMine(cell)) {
-            elCell.classList.add('mine')
-        } else {
-            let count = getMineNegsCount(cell)
-            if (count) {
-                elCell.innerText = count
+    let pos = { i, j }
+    if (!gGame.isOn || !elCell) {
+        return
+    }
+    let cell = getCellByPos(pos)
+    if (!canClickCell(cell)) {
+        return
+    }
+    showCell(elCell, cell)
+    if (isCellMine(cell)) {
+        onClickMine(elCell)
+        return
+    }
+    let count = getMineNegsCount(cell)
+    if (count) {
+        elCell.innerText = count
+    } else {
+        for (let neg of getNegsArray(gBoard, pos)) {
+            if (neg && !(isCellMine(neg))) {
+                let elNeg = getCellElement(neg.pos)
+                onClickCell(elNeg, neg.pos.i, neg.pos.j)
             }
         }
     }
+}
+
+function onMarkCell(elCell, i, j) {
+    if (!gGame.isOn) {
+        return
+    }
+    let pos = {i, j}
+    let cell = getCellByPos(pos)
+    if (!canMarkCell(cell)) {
+        return
+    }
+    cell.isMarked = !cell.isMarked
+    gGame.markedCount += cell.isMarked ? 1 : -1
+    elCell.classList.toggle('marked')
+    if (isGameOver()) {
+        gameOver()
+    }
+}
+
+function canMarkCell(cell) {
+    return cell.isMarked || gGame.markedCount < gAmountMap[difficulty] && !cell.isShown
+}
+
+function showCell(elCell, cell) {
+    cell.isShown = true
+    elCell.classList.add('shown')
+    if (!gGame.shownCount) {
+        addMines()
+    }
+    gGame.shownCount++
+    if (isGameOver()) {
+        gameOver()
+    }
+}
+
+function onClickMine(elCell) {
+    elCell.classList.add('mine')
+    updateLife()
+    gGame.markedCount++
+    gGame.shownCount--
+    if (isGameOver()) {
+        gameOver()
+    } else {
+        updateSmiley()
+    }
+}
+
+function isGameOver() {
+    return isGameLoss() || isGameWin()
+}
+
+function isGameLoss() {
+    return gGame.lives === 0
+}
+
+function isGameWin() {
+    return gGame.shownCount + gGame.markedCount === gSize ** 2
+}
+
+function gameOver() {
+    gGame.isOn = false
+    updateSmiley()
+    console.log('game over')
+}
+
+function updateLife(reset = false) {
+    if (reset) {
+        gGame.lives = 3
+    } else {
+        gGame.lives--
+    }
+    updateElementText('.lives span', gGame.lives)
+}
+
+function isPosShown(pos) {
+    return getCellByPos(pos).isShown
 }
 
 function setMinesNegsCount() {
@@ -95,16 +183,18 @@ function getMineNegsCount(cell) {
 
 function addMines() {
     let mineAmount = gAmountMap[difficulty]
-    let cellsArray = shuffleArray(matrixToArray(gBoard))
+    let posArray = shuffleArray(getCellsByCond(gBoard, (cell) => {return !cell.isShown}))
     for (let i = 0; i < mineAmount; i++) {
-        addMine(cellsArray.pop().pos)
+        addMine(posArray.pop())
     }
+    setMinesNegsCount
 }
 
 function addMine(pos) {
     getCellByPos(pos).isMine = true
 }
 
+//used for testing
 function addMineDOM(pos) {
     let elCell = getCellElement(pos)
     elCell.classList.add('mine')
