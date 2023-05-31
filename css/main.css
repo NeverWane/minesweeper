@@ -1,0 +1,44 @@
+/* 
+* {
+    box-sizing: border-box;
+} */
+
+body {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.board-container {
+    margin: auto;
+    position: relative;
+}
+
+table {
+    border-spacing: 0;
+}
+
+.cell {
+    padding: 0;
+    background-color: aqua;
+    border: 1px black solid;
+    border-collapse: collapse;
+    height: 50px;
+    width: 50px;
+}
+
+.shown {
+    background-color: grey;
+}
+
+.mine {
+    background-color: red;
+}
+
+.myname {
+    margin-top: 10px;
+    background-color: cadetblue;
+    color:black ;
+    text-shadow: 3px 0px 8px #ff0000, -1px 3px 8px #EC11E4;
+}
