@@ -58,7 +58,7 @@ function renderBoard(board) {
 function updateSmiley() {
     let image = 'smiley'
     image += isGameWin() ? 'win' : `${gGame.lives}`
-    getElementById('smiley').src = `../${getImage(image)}`
+    getElementById('smiley').src = `${getImage(image)}`
 }
 
 function onClickCell(elCell, i, j) {
