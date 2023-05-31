@@ -55,10 +55,16 @@ function renderBoard(board) {
     getElement('.board').innerHTML = innerHTML
 }
 
-function updateSmiley() {
-    let image = 'smiley'
-    image += isGameWin() ? 'win' : `${gGame.lives}`
-    getElementById('smiley').src = `${getImage(image)}`
+function updateSmiley() { //trying to make it work both in github and local
+    let imageURL = 'smiley'
+    imageURL += isGameWin() ? 'win' : `${gGame.lives}`
+    imageURL = getImage(imageURL)
+    let image = new Image()
+    image.src = imageURL
+    if (image.height === 0) {
+        imageURL = `../${imageURL}`
+    }
+    updateElementIdImg('smiley', imageURL)
 }
 
 function onClickCell(elCell, i, j) {
