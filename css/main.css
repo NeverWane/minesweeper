@@ -81,8 +81,21 @@ table {
     background-color: blue;
     border: 1px whitesmoke solid;
     border-radius: 60px;
+    background-position: center;
     top: 50%;
     transform: translate(0, -25%);
+    height: 40px;
+    width: 60px;
+    color:white ;
+    text-shadow: 3px 0px 8px lightgreen, 0px 3px 8px #11b9ec;
+}
+
+.undo {
+    background-color: red;
+    border: 1px whitesmoke solid;
+    border-radius: 60px;
+    background-position: center;
+    transform: translate(0, -5%);
     height: 40px;
     width: 60px;
     color:white ;
@@ -109,6 +122,22 @@ table {
     background-position: center;
     top: 50%;
     transform: translate(0, 25%);
+}
+
+.hintcell {
+    background-color: yellow;
+}
+
+.mhint {
+    background-color: rgb(255, 0, 179);
+    border: 1px whitesmoke solid;
+    border-radius: 60px;
+    top: 50%;
+    transform: translate(0, -25%);
+    height: 40px;
+    width: 60px;
+    color:white ;
+    text-shadow: 3px 0px 8px lightgreen, 0px 3px 8px #11b9ec;
 }
 
 .onhint {
