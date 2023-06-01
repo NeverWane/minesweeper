@@ -77,6 +77,7 @@ function onInit() {
     clickType = NORMAL
     getElementById('mhint').classList.remove('disabled')
     getElementById('undo').classList.add('disabled')
+    getElementById('exter').classList.add('disabled')
     toggleTimer(true)
     updateTime(true)
     updateScoreText()
@@ -85,6 +86,10 @@ function onInit() {
     updateHints(3)
     updateSafeClicks(true)
     renderBoard(gBoard)
+}
+
+function onToggleDarkMode() {
+    getElement('body').classList.toggle('darkmode')
 }
 
 function onClickSize(value) {
@@ -152,7 +157,7 @@ function onClickCell(elCell, i, j, timer = 0, saveState = true) {
     if (isCellMine(cell)) {
         return
     }
-    let count = getMineNegsCount(cell)
+    let count = cell.mineNegs
     if (count) {
         elCell.innerText = count
     }
@@ -182,7 +187,7 @@ function showCell(elCell, cell, timer) {
         }, timer)
     } else {
         cell.isShown = true
-        if (!gGame.mineCount && !gGame.isCustom) {
+        if (!gGame.shownCount && !gGame.isCustom) {
             addMines()
         }
         gGame.shownCount++
@@ -216,6 +221,7 @@ function onClickMine(elCell, cell, timer) {
 function createSaveState() {
     if (!gameStates.length) {
         getElementById('undo').classList.remove('disabled')
+        getElementById('exter').classList.remove('disabled')
     }
     let boardState = []
     let countsState = {
@@ -267,18 +273,38 @@ function onMegaHint(elCell, pos) {
     getElementById('mhint').classList.add('disabled')
     for (let i = minRow; i <= maxRow; i++) {
         for (let j = minCol; j <= maxCol; j++) {
-            onClickCell(getCellElement({i, j}), i, j, 2000, false)
+            onClickCell(getCellElement({ i, j }), i, j, 2000, false)
         }
     }
 }
 
-//if no cells are shown after undo the game will restart unless it's a custom game
-function onUndo() {
+function onMineExterminator(elBtn) {
+    if (clickType === MHINT) {
+        onToggleMHint()
+    }
     if (!gGame.isOn || !gameStates.length) {
         return
     }
-    if (!gGame.shownCount) {
-        onInit()
+    getElementById('exter').classList.add('disabled')
+    createSaveState()
+    let minePositions = shuffleArray(getCellsByCond(gBoard, isCellMine))
+    for (let i = 0; i < 3; i++) {
+        if (minePositions && minePositions[0]) {
+            let mineCell = getCellByPos(minePositions.pop())
+            mineCell.isMine = false
+            gGame.mineCount--
+        }
+    }
+    setMinesNegsCount()
+    renderBoard(gBoard)
+}
+
+//if no cells are shown after undo the game will restart unless it's a custom game
+function onUndo() {
+    if (clickType === MHINT) {
+        onToggleMHint()
+    }
+    if (!gGame.isOn || !gameStates.length) {
         return
     }
     let gameState = gameStates.pop()
@@ -292,7 +318,7 @@ function onUndo() {
         return
     }
     renderBoard(gBoard)
-    setMinesNegsCount()
+    // setMinesNegsCount()
 }
 
 function onMarkCell(elCell, i, j) {
@@ -316,8 +342,8 @@ function onMarkCell(elCell, i, j) {
 }
 
 function canMarkCell(cell) {
-    let mineCount = gGame.isCustom ? gGame.mineCount : gAmountMap[difficulty]
-    return cell.isMarked || gGame.markedCount < mineCount && !cell.isShown
+    // let mineCount = gGame.isCustom ? gGame.mineCount : gAmountMap[difficulty]
+    return cell.isMarked || gGame.markedCount < gGame.mineCount && !cell.isShown
 }
 
 function isGameOver() {
@@ -329,7 +355,7 @@ function isGameLoss() {
 }
 
 function isGameWin() {
-    return !isGameLoss() && gGame.shownCount + gGame.markedCount === gSize ** 2
+    return !isGameLoss() && gGame.markedCount === gGame.mineCount && gGame.shownCount + gGame.markedCount === gSize ** 2
 }
 
 function gameOver() {
@@ -455,7 +481,7 @@ function hideCell(elCell, pos) {
 }
 
 function getMineNegsCount(cell) {
-    if (cell.mineNegs !== 0 && !cell.mineNegs) {
+    if (cell.mineNegs !== 0) {
         let negsArray = getNegsArray(gBoard, cell.pos)
         cell.mineNegs = getCellsByCond([negsArray], isCellMine).length
     }
