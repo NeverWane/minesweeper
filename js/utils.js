@@ -96,6 +96,10 @@ function updateElementIdImg(elementId, src) {
     getElementById(elementId).src = src
 }
 
+function updateElementIdText(elementId, text) {
+    getElementById(elementId).innerText = text
+}
+
 function getElement(elementKey) {
     return document.querySelector(elementKey)
 }

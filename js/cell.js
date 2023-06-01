@@ -21,12 +21,19 @@ function getCellHTML(cell, i, j) {
     return cellHTML
 }
 
-function canClickCell(cell) {
-    return cell && !cell.isShown && !cell.isMarked
+function canClickCell(cell, timer) {
+    if (!cell) {
+        return
+    }
+    return timer || !cell.isShown && !cell.isMarked
 }
 
 function isCellMine(cell) {
     return cell && cell.isMine
+}
+
+function isValidSafeCell(cell) {
+    return cell && !cell.isMine && !cell.isShown
 }
 
 function getCellId(pos) {

@@ -19,6 +19,30 @@ table {
     border-spacing: 0;
 }
 
+.custom {
+    background-color: rgb(70, 29, 6);
+    border: 1px whitesmoke solid;
+    border-radius: 60px;
+    top: 50%;
+    transform: translate(0, -25%);
+    height: 40px;
+    width: 80px;
+    color:white ;
+    cursor: pointer;
+}
+
+.row1 {
+    display: inline-block;
+}
+
+.lives {
+    display: inline-block;
+}
+
+.timer {
+    display: inline-block;
+}
+
 .cell {
     padding: 0;
     background-color: aqua;
@@ -34,6 +58,41 @@ table {
     cursor: pointer;
 }
 
+.tempmine {
+    background-color: orange;
+}
+
+.marked {
+    background-image: url('../marked.png');
+}
+
+.btn {
+    padding: 0;
+    margin: 5px;
+    background-color: transparent;
+    border: 0px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.safe {
+    background-color: blue;
+    border: 1px whitesmoke solid;
+    border-radius: 60px;
+    top: 50%;
+    transform: translate(0, -25%);
+    height: 40px;
+    width: 60px;
+    color:white ;
+    text-shadow: 3px 0px 8px lightgreen, 0px 3px 8px #11b9ec;
+}
+
+.safecell {
+    background-color: rgb(31, 214, 31);
+}
+
 .shown {
     background-color: grey;
 }
@@ -42,18 +101,23 @@ table {
     background-color: red;
 }
 
-.marked {
-    background-image: url('../marked.png');
+.hint {
+    background-image: url('../hint.png');
+    height: 40px;
+    width: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    top: 50%;
+    transform: translate(0, 25%);
 }
 
-.smiley {
-    padding: 0;
-    margin: 5px;
-    background-color: transparent;
-    border: 0px;
-    height: 30px;
-    width: 30px;
-    cursor: pointer;
+.onhint {
+    background-color: yellow;
+}
+
+.disabled {
+    background-color: lightgray;
+    cursor: not-allowed;
 }
 
 .myname {
