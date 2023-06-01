@@ -282,7 +282,7 @@ function onMineExterminator(elBtn) {
     if (clickType === MHINT) {
         onToggleMHint()
     }
-    if (!gGame.isOn || !gameStates.length) {
+    if (!gGame.isOn || !gameStates.length || elBtn.classList.contains('disabled')) {
         return
     }
     getElementById('exter').classList.add('disabled')
