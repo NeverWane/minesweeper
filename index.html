@@ -10,40 +10,41 @@
 </head>
 
 <body oncontextmenu="return false;" onload="onInit()">
-    <fieldset>
+    <div>
         <div class="mode darkmode" onclick="onToggleDarkMode()">Toggle Dark Mode</div>
         <h3>
             Select Difficulty
         </h3>
         <div>
-            <button class="custom" id="custom" onclick="onToggleCustom(this)">Custom Game</button>
+            <div class="custom" id="custom" onclick="onToggleCustom(this)">Custom Game</div>
             <input type="radio" id="beginner" name="difficulty" value="beginner" checked onclick="onClickSize(value)">
             <label for="beginner">4 x 4 (2 mines)</label>
             <input type="radio" id="medium" name="difficulty" value="medium" onclick="onClickSize(value)">
             <label for="medium">8 x 8 (14 mines)</label>
             <input type="radio" id="expert" name="difficulty" value="expert" onclick="onClickSize(value)">
             <label for="expert">12 x 12 (32 mines)</label>
+            <button class="btn secret" value="secret" onclick="onClickSize(value)"></button>
         </div>
-    </fieldset>
-    <fieldset class="row1">
-        <div>
-            <button class="btn hint" id="hint" onclick="onToggleHint(this)"></button>
-            <label for="hint">Hints: <span id="hintcount">3</span></label>
-            <button class="btn mhint" id="mhint" onclick="onToggleMHint(this)">MEGA HINT</button>
-            <button class="btn safe" id="safe" onclick="onClickSafe(this)">Safe Click</button>
-            <label for="safe">Safe Clicks: <span id="safecount">3</span></label>
-            <button class="btn undo" id="undo" onclick="onUndo(this)">Undo</button>
-            <button class="btn exter" id="exter" onclick="onMineExterminator(this)">EXTERMINATE</button>
-        </div>
-    </fieldset>
-    <div>
-        <div class="timer">Game Time: <span id="timer"></span></div>
-        <button class="btn" onclick="onInit()"><img id="smiley" src="smiley3.png"></button>
-        <div class="lives">Lives: <span>3</span></div>
     </div>
-    <table class="board-container">
-        <tbody class="board"></tbody>
-    </table>
+    <div class="extras">
+        <div class="extrastyle timer"><span style="white-space: pre-line;" id="timer"></span></div>
+        <div class="extrastyle lives">Lives: <span>3</span></div>
+    </div>
+    <div class="boardflex">
+        <div class="btn smile" onclick="onInit()"><img id="smiley" src="smiley3.png"></div>
+        <table class="board-container">
+            <tbody class="board"></tbody>
+        </table>
+    </div>
+    <div class="extras">
+        <div class="extrastyle undo" id="undo" onclick="onUndo(this)">Undo</div>
+        <div class="extrastyle safe" id="safe" onclick="onClickSafe(this)">Safe Clicks: <span id="safecount">3</span>
+        </div>
+        <div class="extrastyle mhint" id="mhint" onclick="onToggleMHint(this)">MEGA HINT</div>
+        <div class="extrastyle hint" id="hint" onclick="onToggleHint(this)"><img src="hint.png"></img>Hints: <span
+                id="hintcount">3</span></div>
+        <div class="extrastyle exter" id="exter" onclick="onMineExterminator(this)">EXTERMINATE</div>
+    </div>
     <div class="hiscore">Hiscore For <span id="difficulty"></span></div>
     <footer class="myname">Almog Agassi</footer>
 

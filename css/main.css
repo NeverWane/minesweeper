@@ -4,14 +4,12 @@
 } */
 
 body {
+    color: bisque;
+    background-color: rgb(195, 228, 228);
     text-align: center;
     margin: 0;
     padding: 0;
-    position: relative;
-}
-
-.board-container {
-    margin: auto;
+    text-shadow: 3px 0px 2px rgb(8, 53, 8), 2px 0px 2px #073a49;
     position: relative;
 }
 
@@ -19,55 +17,75 @@ table {
     border-spacing: 0;
 }
 
+.board-container {
+    color: black;
+    display: inline-table;
+    position: relative;
+    width: 500px;
+    height: 500px;
+    table-layout: fixed;
+}
+
+td {
+    width: 30px;
+    height: 30px;
+}
+
 .darkmode {
-    color: bisque;
+    color: rgb(204, 179, 152);
+    text-shadow: 3px 0px 4px lightgreen, 0px 3px 4px #11b9ec;
     background: black;
 }
 
 .mode {
     display: inline-block;
-    width: fit-content;
-    position: absolute;
+    padding: 5px;
+    position: fixed;
     text-align: left;
     cursor: pointer;
     left: 10px;
+    top: 10px;
     border: 1px grey solid;
     background-color: rgb(124, 70, 3);
 }
 
 .custom {
+    display: inline-block;
     background-color: rgb(70, 29, 6);
     border: 1px whitesmoke solid;
     border-radius: 60px;
-    top: 50%;
-    transform: translate(0, -25%);
+    vertical-align: middle;
     height: 40px;
     width: 80px;
-    color:white ;
     cursor: pointer;
 }
 
-.row1 {
-    display: inline-block;
-}
-
-.lives {
-    display: inline-block;
-}
-
-.timer {
-    display: inline-block;
-}
-
 .cell {
-    padding: 0;
     background-color: aqua;
     border: 1px black solid;
     border-collapse: collapse;
-    height: 50px;
-    width: 50px;
     transition: 0.3s;
 }
+
+/* .small {
+    height: 3vw;
+    width: 3vw;
+}
+
+.medium {
+    height: 4vw;
+    width: 4vw;
+}
+
+.large {
+    height: 6vw;
+    width: 6vw;
+}
+
+.huge {
+    height: 12vw;
+    width: 12vw;
+} */
 
 .cell:not(.shown):hover {
     background-color: aquamarine;
@@ -93,29 +111,89 @@ table {
     transition: 0.3s;
 }
 
-.safe {
-    background-color: blue;
+.boardflex {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.smile {
+    display: flex;
+    /* position: absolute; */
+    /* margin-left: 50%;
+    transform: translateX(-50%); */
+}
+
+.secret {
+    position: absolute;
+    background-color: white;
+    opacity: 7%;
+    right: 5px;
+}
+
+.hintcell {
+    background-color: yellow;
+}
+
+.extras {
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    width: 250px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.extrastyle {
+    display: flex;
     border: 1px whitesmoke solid;
     border-radius: 60px;
-    background-position: center;
-    top: 50%;
-    transform: translate(0, -25%);
-    height: 40px;
-    width: 60px;
-    color:white ;
+    height: 50px;
+    width: 45%;
     text-shadow: 3px 0px 8px lightgreen, 0px 3px 8px #11b9ec;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.lives {
+    background-color: rgb(151, 49, 49);
+    display: flex;
+    border-radius: 10px;
+}
+
+.timer {
+    background-color: rgb(119, 119, 119);
+    display: flex;
+    border-radius: 10px;
+}
+
+
+.hint {
+    border: 1px whitesmoke solid;
+    background-color:darkslategray;
+}
+
+.safe {
+    background-color: blue;
 }
 
 .undo {
     background-color: red;
-    border: 1px whitesmoke solid;
-    border-radius: 60px;
-    background-position: center;
-    transform: translate(0, -5%);
-    height: 40px;
-    width: 60px;
-    color:white ;
-    text-shadow: 3px 0px 8px lightgreen, 0px 3px 8px #11b9ec;
+}
+
+.mhint {
+    background-color: rgb(255, 0, 179);
+}
+
+.exter {
+    background-color: rgb(22, 21, 22);
+    width: 70%;
+    margin-top: 50px;
 }
 
 .safecell {
@@ -128,44 +206,6 @@ table {
 
 .mine {
     background-color: red;
-}
-
-.hint {
-    background-image: url('../hint.png');
-    height: 40px;
-    width: 40px;
-    background-repeat: no-repeat;
-    background-position: center;
-    top: 50%;
-    transform: translate(0, 25%);
-}
-
-.hintcell {
-    background-color: yellow;
-}
-
-.mhint {
-    background-color: rgb(255, 0, 179);
-    border: 1px whitesmoke solid;
-    border-radius: 60px;
-    top: 50%;
-    transform: translate(0, -25%);
-    height: 40px;
-    width: 60px;
-    color:white ;
-    text-shadow: 3px 0px 8px lightgreen, 0px 3px 8px #11b9ec;
-}
-
-.exter {
-    background-color: rgb(22, 21, 22);
-    border: 1px whitesmoke solid;
-    border-radius: 60px;
-    top: 50%;
-    transform: translate(0, -5%);
-    height: 40px;
-    width: 120px;
-    color:white ;
-    text-shadow: 3px 0px 8px lightgreen, 0px 3px 8px #11b9ec;
 }
 
 .onhint {
