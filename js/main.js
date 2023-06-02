@@ -94,6 +94,7 @@ function onInit() {
   updateTime(true)
   updateScoreText()
   updateLife(true)
+  updateMarks()
   updateHints(3)
   updateSafeClicks(true)
   let smiley = '3'
@@ -233,6 +234,7 @@ function onClickMine(elCell, cell, timer) {
   } else {
     updateLife()
     gGame.markedCount++
+    updateMarks()
     gGame.shownCount--
     if (!isGameOver()) {
       updateSmiley()
@@ -321,6 +323,7 @@ function onMineExterminator(elBtn) {
       gGame.mineCount--
     }
   }
+  updateMarks()
   setMinesNegsCount()
   renderBoard(gBoard)
 }
@@ -343,8 +346,8 @@ function onUndo() {
     onInit()
     return
   }
+  updateMarks()
   renderBoard(gBoard)
-  // setMinesNegsCount()
 }
 
 function onMarkCell(elCell, i, j) {
@@ -361,6 +364,7 @@ function onMarkCell(elCell, i, j) {
   }
   cell.isMarked = !cell.isMarked
   gGame.markedCount += cell.isMarked ? 1 : -1
+  updateMarks()
   elCell.classList.toggle('marked')
   if (isGameOver()) {
     gameOver()
@@ -413,6 +417,10 @@ function onGameWin() {
 function updateLife(reset = false) {
   gGame.lives = reset ? gLifeMap[difficulty] : gGame.lives - 1
   updateElementText('.lives span', gGame.lives)
+}
+
+function updateMarks() {
+  updateElementText('.marks span', gGame.mineCount - gGame.markedCount)
 }
 
 function isPosShown(pos) {
@@ -569,7 +577,7 @@ function addMines(startPos) {
       addMine(posArray.pop())
     }
   }
-  // gGame.mineCount = mineAmount
+  updateMarks()
   setMinesNegsCount()
 }
 

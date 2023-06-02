@@ -172,6 +172,12 @@ td {
     border-radius: 10px;
 }
 
+.marks {
+    background-color: rgb(41, 115, 177);
+    display: flex;
+    border-radius: 10px;
+}
+
 
 .hint {
     border: 1px whitesmoke solid;
