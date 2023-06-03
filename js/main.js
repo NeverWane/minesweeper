@@ -391,7 +391,7 @@ function updateCellMark(elCell, cell) {
 }
 
 function canMarkCell(cell) {
-  return cell.isPossible || (gGame.markedCount < gGame.mineCount && !cell.isShown)
+  return cell.isMarked || (gGame.markedCount < gGame.mineCount && !cell.isShown)
 }
 
 function isGameOver() {
