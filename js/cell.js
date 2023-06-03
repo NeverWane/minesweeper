@@ -6,8 +6,8 @@
 //     isMarked: 'marked',
 // }
 
-function createCell(cellSize, pos, isShown = false, isMine = false, isMarked = false, mineNegs = '') {
-    return {cellSize, pos, isShown, isMine, isMarked, mineNegs}
+function createCell(cellSize, pos, isShown = false, isMine = false, isMarked = false, isPossible = false, mineNegs = '') {
+    return {cellSize, pos, isShown, isMine, isMarked, isPossible, mineNegs}
 }
 
 function createCellCopy(cell) {
@@ -18,7 +18,7 @@ function createCellCopy(cell) {
     //     isMarked: cell.isMarked,
     //     mineNegs: cell.mineNegs
     // }
-    return createCell(cell.cellSize, cell.pos, cell.isShown, cell.isMine, cell.isMarked, cell.mineNegs)
+    return createCell(cell.cellSize, cell.pos, cell.isShown, cell.isMine, cell.isMarked, cell.isPossible, cell.mineNegs)
 }
 
 function getCellHTML(cell, i, j) {
@@ -34,6 +34,9 @@ function getCellHTML(cell, i, j) {
     }
     if (cell.isMarked) {
         cellHTML += ' marked'
+        if (cell.isPossible) {
+            cellHTML += ' possible'
+        }
     }
     cellHTML += ` ${cell.cellSize}" id="cell-${i}-${j}" data-i="${i}" data-j="${j}" oncontextmenu="onMarkCell(this, this.dataset.i, this.dataset.j)" onclick="onClickCell(this, this.dataset.i, this.dataset.j)">${negsText}</td>`
     return cellHTML

@@ -61,9 +61,10 @@ td {
 }
 
 .cell {
-    background-color: aqua;
+    background-color: rgb(23, 117, 117);
     border: 1px black solid;
     border-collapse: collapse;
+    cursor: pointer;
     transition: 0.3s;
 }
 
@@ -87,9 +88,8 @@ td {
     width: 12vw;
 } */
 
-.cell:not(.shown):hover {
-    background-color: aquamarine;
-    cursor: pointer;
+.cell:not(.shown, .possible, .safecell, .hintcell):hover {
+    background-color: rgb(30, 146, 107);
 }
 
 .tempmine {
@@ -98,6 +98,14 @@ td {
 
 .marked {
     background-image: url('../marked.png');
+}
+
+.possible {
+    background-color: #073a49;
+}
+
+.possible:hover {
+    background-color: #175568;
 }
 
 .btn {
@@ -120,9 +128,6 @@ td {
 
 .smile {
     display: flex;
-    /* position: absolute; */
-    /* margin-left: 50%;
-    transform: translateX(-50%); */
 }
 
 .secret {
@@ -208,6 +213,7 @@ td {
 
 .shown {
     background-color: grey;
+    cursor: default;
 }
 
 .mine {

@@ -94,7 +94,7 @@ function onInit() {
   updateTime(true)
   updateScoreText()
   updateLife(true)
-  updateMarks()
+  updateMarks(true)
   updateHints(3)
   updateSafeClicks(true)
   let smiley = '3'
@@ -132,13 +132,14 @@ function buildBoard() {
   for (let i = 0; i < gSize; i++) {
     let row = []
     for (let j = 0; j < gSize; j++) {
-      row.push(createCell(gCellSizeMap[difficulty] ,{ i, j }))
+      row.push(createCell(gCellSizeMap[difficulty], { i, j }))
     }
     board.push(row)
   }
   return board
 }
 
+//cellSize no longer used. kept just in case
 function renderBoard(board) {
   let cellSize = gCellSizeMap[difficulty]
   let innerHTML = createTableHTML(board, cellSize)
@@ -346,12 +347,15 @@ function onUndo() {
     onInit()
     return
   }
+  if (!gameStates.length) {
+    getElementById('undo').classList.add('disabled')
+  }
   updateMarks()
   renderBoard(gBoard)
 }
 
 function onMarkCell(elCell, i, j) {
-  if (!gGame.isOn) {
+  if (!gGame.isOn || clickType === CUSTOM) {
     return
   }
   let pos = { i, j }
@@ -362,18 +366,32 @@ function onMarkCell(elCell, i, j) {
   if (gameStates.length) {
     createSaveState()
   }
-  cell.isMarked = !cell.isMarked
-  gGame.markedCount += cell.isMarked ? 1 : -1
+  updateCellMark(elCell, cell)
   updateMarks()
-  elCell.classList.toggle('marked')
   if (isGameOver()) {
     gameOver()
   }
 }
 
+function updateCellMark(elCell, cell) {
+  if (cell.isPossible) {
+    cell.isPossible = false
+    cell.isMarked = false
+    elCell.classList.remove('marked')
+    elCell.classList.remove('possible')
+    gGame.markedCount--
+  } else if (cell.isMarked) {
+    cell.isPossible = true
+    elCell.classList.add('possible')
+  } else {
+    cell.isMarked = true
+    elCell.classList.add('marked')
+    gGame.markedCount++
+  }
+}
+
 function canMarkCell(cell) {
-  // let mineCount = gGame.isCustom ? gGame.mineCount : gAmountMap[difficulty]
-  return cell.isMarked || (gGame.markedCount < gGame.mineCount && !cell.isShown)
+  return cell.isPossible || (gGame.markedCount < gGame.mineCount && !cell.isShown)
 }
 
 function isGameOver() {
@@ -419,8 +437,12 @@ function updateLife(reset = false) {
   updateElementText('.lives span', gGame.lives)
 }
 
-function updateMarks() {
-  updateElementText('.marks span', gGame.mineCount - gGame.markedCount)
+function updateMarks(reset = false) {
+  if (reset) {
+    updateElementText('.marks span', gAmountMap[difficulty])
+  } else {
+    updateElementText('.marks span', gGame.mineCount - gGame.markedCount)
+  }
 }
 
 function isPosShown(pos) {
@@ -535,6 +557,7 @@ function onToggleCustom(elBtn = null) {
   if (clickType === CUSTOM) {
     clickType = NORMAL
     if (gGame.mineCount === 0) {
+      onInit()
       return
     }
     for (let row of gBoard) {
@@ -549,6 +572,7 @@ function onToggleCustom(elBtn = null) {
     toggleTimer()
   } else {
     onInit()
+    updateMarks()
     clickType = CUSTOM
   }
 }
@@ -561,6 +585,7 @@ function onCustom(elCell, pos) {
   cell.isMine = !cell.isMine
   gGame.mineCount += cell.isMine ? 1 : -1
   elCell.classList.toggle('tempmine')
+  updateMarks()
 }
 
 function addMines(startPos) {
